@@ -1,10 +1,13 @@
+from codigo.TelaInicial import TelaInicial
+from codigo.Const import WINDOW_WIDTH, WINDOW_HEIGHT
+
 import pygame
 
 
-class Game:
+class DarkMonster:
     def __init__(self):
         pygame.init()  # iniciando pygame
-        self.window = pygame.display.set_mode(size=(600, 490)) # pxs da janela
+        self.window = pygame.display.set_mode(size=(WINDOW_WIDTH, WINDOW_HEIGHT)) # pxs da janela
 
     def run(self):
         global TelaInicial
@@ -12,7 +15,4 @@ class Game:
             telaInicial = TelaInicial(self.window)
             telaInicial.run()
             pass
-           # for event in pygame.event.get():
-             #   if event.type == pygame.QUIT:
-                #    pygame.quit()
-                 #   quit()
+

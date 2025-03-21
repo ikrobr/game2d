@@ -1,4 +1,5 @@
-from code.DarkMonster import DarkMonster
+import pygame
+from codigo.DarkMonster import DarkMonster
 
 
 game = DarkMonster()
