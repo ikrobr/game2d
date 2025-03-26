@@ -8,5 +8,5 @@ WINDOW_HEIGHT = 500
 OBJ_SPEED = {
     'floresta1': 0,
     'floresta2': 1,
-    'floresta3': 2,
+    'floresta3': 3,
 }

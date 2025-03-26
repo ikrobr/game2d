@@ -7,6 +7,6 @@ class Background(Personagem):
         super().__init__(name, position)
 
     def move(self,):
-        self.rect.centerx -= 0.7
+        self.rect.x -= OBJ_SPEED[self.name]
         if self.rect.right <= 0:
             self.rect.left = WINDOW_WIDTH
