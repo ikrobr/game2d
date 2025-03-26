@@ -1,6 +1,6 @@
-from pygame.examples.grid import WINDOW_WIDTH, WINDOW_HEIGHT
-NEW_GAME  = ('NOVO JOGO')
-
+NEW_GAME = ('N', 'O', 'V', 'O', ' ', 'J', 'O', 'G', 'O')
+EXIT = ('S', 'A', 'I', 'R')
+SCORE = ('R', 'A', 'N', 'K')
 
 WINDOW_WIDTH = 600
 WINDOW_HEIGHT = 500
