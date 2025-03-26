@@ -12,7 +12,7 @@ class Level:
         self.name = name
         self.game_mode = game_mode
         self.personagem_list: list[Personagem] = []
-        self.personagem_list.extend(FactoryPerson.get_personagem('imglevelfull'))
+        self.personagem_list.extend(FactoryPerson.get_personagem('floresta'))
 
     def run(self):
         running = True
@@ -22,6 +22,7 @@ class Level:
                     running = False
 
             for pers in self.personagem_list:
-                self.window.blit(pers.surf, pers.rect)
-
+                self.window.blit(source=pers.surf, dest=pers.rect)
+                pers.move()
             pygame.display.flip()
+        pass

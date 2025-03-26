@@ -1,3 +1,4 @@
+from codigo.Const import WINDOW_WIDTH, OBJ_SPEED
 from codigo.Personagem import Personagem
 
 
@@ -6,4 +7,6 @@ class Background(Personagem):
         super().__init__(name, position)
 
     def move(self,):
-        pass
+        self.rect.centerx -= 0.7
+        if self.rect.right <= 0:
+            self.rect.left = WINDOW_WIDTH
