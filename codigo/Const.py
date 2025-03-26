@@ -9,4 +9,6 @@ OBJ_SPEED = {
     'floresta1': 0,
     'floresta2': 1,
     'floresta3': 3,
+    'floresta4': 2,
+    'chao': 0,
 }

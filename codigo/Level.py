@@ -15,6 +15,8 @@ class Level:
         self.personagem_list.extend(FactoryPerson.get_personagem('floresta'))
 
     def run(self):
+        pygame.mixer_music.load(r'C:\Users\icaro\PycharmProjects\DarkMonster\asset\assets\\somlevel.wav')
+        pygame.mixer_music.play(-1)
         running = True
         clock = pygame.time.Clock()
         while running:
