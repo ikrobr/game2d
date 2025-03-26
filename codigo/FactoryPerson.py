@@ -22,8 +22,8 @@ class FactoryPerson:
 
                 chao_arquivo = r'C:\Users\icaro\PycharmProjects\DarkMonster\asset\assets\PNG\2\chao.png'
                 if os.path.exists(chao_arquivo):
-                    chao = Chao('chao', (0, WINDOW_HEIGHT - 50))  # Posição do chão
-                    list_png.append(chao)
-                else:
-                    print(f"Imagem do chão NÃO encontrada: {chao_arquivo}")
+                    chao1 = Chao('chao', (0, WINDOW_HEIGHT))
+                    chao2 = Chao('chao', (WINDOW_WIDTH, WINDOW_HEIGHT))
+                    list_png.append(chao1)
+                    list_png.append(chao2)
                 return list_png
