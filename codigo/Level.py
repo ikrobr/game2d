@@ -43,7 +43,8 @@ class Level:
                     running = False
 
             for pers in self.personagem_list:
-                if isinstance(pers, Background): #desenhando paisagem
+                if isinstance(pers, Background):  # desenhando o fundo
+                    pers.move() #movimentar
                     self.window.blit(pers.surf, pers.rect)
 
             if self.player:
