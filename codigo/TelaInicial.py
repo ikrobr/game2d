@@ -1,16 +1,16 @@
-from pygame.font import Font
 import pygame
-from pygame import Surface, Rect, font
+from pygame.font import Font
+from pygame import Surface, Rect
 
 from codigo.Const import WINDOW_WIDTH, WINDOW_HEIGHT, NEW_GAME, EXIT, SCORE
 from codigo.Level import Level
-
 
 class TelaInicial:
     def __init__(self, window):
         self.window = window
         self.surf = pygame.image.load(r'C:\Users\icaro\PycharmProjects\DarkMonster\asset\assets\PNG\2\imglevelfull.png')
         self.rect = self.surf.get_rect(left=0, top=0)
+        self.rank = [100, 50]
 
     def run(self, menu_option=0):
         pygame.mixer_music.load(r'C:\Users\icaro\PycharmProjects\DarkMonster\asset\assets\sommenu.wav')
@@ -18,13 +18,17 @@ class TelaInicial:
 
         while True:
             self.window.blit(source=self.surf, dest=self.rect)
-            self.menu_text("Dark", (250, 250, 250), ((WINDOW_WIDTH / 2), 140), 50)
-            self.menu_text("Monster", (250, 250, 250), ((WINDOW_WIDTH / 2), 180), 50)
+
+            if menu_option == 0:
+                self.menu_text("Dark", (250, 250, 250), ((WINDOW_WIDTH / 2), 140), 50)
+                self.menu_text("Monster", (250, 250, 250), ((WINDOW_WIDTH / 2), 180), 50)
+                self.exibir_opcoes_menu(menu_option)
+
+            elif menu_option == 1:
+                self.exibir_rank()
 
             letter_spacing = -1
-
-            total_width = sum(
-                [self.text_width(NEW_GAME[i], 20) + letter_spacing for i in range(len(NEW_GAME))]) - letter_spacing
+            total_width = sum([self.text_width(NEW_GAME[i], 20) + letter_spacing for i in range(len(NEW_GAME))]) - letter_spacing
             offset = (WINDOW_WIDTH / 2) - (total_width / 2)
 
             for i in range(len(NEW_GAME)):
@@ -32,9 +36,7 @@ class TelaInicial:
                 self.menu_text(NEW_GAME[i], text_color, (offset, 290), 20)
                 offset += self.text_width(NEW_GAME[i], 20) + letter_spacing
 
-            total_width_score = sum(
-                [self.text_width(SCORE[i], 20) + letter_spacing for i in range(len(SCORE))]
-            ) - letter_spacing
+            total_width_score = sum([self.text_width(SCORE[i], 20) + letter_spacing for i in range(len(SCORE))]) - letter_spacing
             offset_score = (WINDOW_WIDTH / 2) - (total_width_score / 2)
 
             for i in range(len(SCORE)):
@@ -42,8 +44,7 @@ class TelaInicial:
                 self.menu_text(SCORE[i], text_color_score, (offset_score, 340), 20)
                 offset_score += self.text_width(SCORE[i], 20) + letter_spacing
 
-            total_width_exit = sum(
-                [self.text_width(EXIT[i], 20) + letter_spacing for i in range(len(EXIT))]) - letter_spacing
+            total_width_exit = sum([self.text_width(EXIT[i], 20) + letter_spacing for i in range(len(EXIT))]) - letter_spacing
             offset_exit = (WINDOW_WIDTH / 2) - (total_width_exit / 2)
 
             for i in range(len(EXIT)):
@@ -63,7 +64,7 @@ class TelaInicial:
                     if event.key == pygame.K_RETURN:
                         if menu_option == 0:
                             print("PLAY")
-                            level = Level(self.window,"LEVEL", NEW_GAME)
+                            level = Level(self.window, "LEVEL", NEW_GAME)
                             level.run()
                         elif menu_option == 1:
                             print("RANK")
@@ -87,3 +88,41 @@ class TelaInicial:
     def text_width(self, text, size):
         font = pygame.font.SysFont("Courier", size, bold=True)
         return font.size(text)[0] + 7
+
+    def exibir_opcoes_menu(self, menu_option):
+        letter_spacing = -1
+        total_width = sum([self.text_width(NEW_GAME[i], 20) + letter_spacing for i in range(len(NEW_GAME))]) - letter_spacing
+        offset = (WINDOW_WIDTH / 2) - (total_width / 2)
+
+        for i in range(len(NEW_GAME)):
+            text_color = (255,20,20) if menu_option == 0 else (181, 181, 181)
+            self.menu_text(NEW_GAME[i], text_color, (offset, 290), 20)
+            offset += self.text_width(NEW_GAME[i], 20) + letter_spacing
+
+        total_width_score = sum([self.text_width(SCORE[i], 20) + letter_spacing for i in range(len(SCORE))]) - letter_spacing
+        offset_score = (WINDOW_WIDTH / 2) - (total_width_score / 2)
+
+        for i in range(len(SCORE)):
+            text_color_score = (255,20,20) if menu_option == 1 else (181, 181, 181)
+            self.menu_text(SCORE[i], text_color_score, (offset_score, 340), 20)
+            offset_score += self.text_width(SCORE[i], 20) + letter_spacing
+
+        total_width_exit = sum([self.text_width(EXIT[i], 20) + letter_spacing for i in range(len(EXIT))]) - letter_spacing
+        offset_exit = (WINDOW_WIDTH / 2) - (total_width_exit / 2)
+
+        for i in range(len(EXIT)):
+            text_color_exit = (255, 20, 20) if menu_option == 2 else (181, 181, 181)
+            self.menu_text(EXIT[i], text_color_exit, (offset_exit, 390), 20)
+            offset_exit += self.text_width(EXIT[i], 20) + letter_spacing
+
+    def exibir_rank(self):
+        self.window.fill((0, 0, 0))
+
+        rank_rect = pygame.Rect(WINDOW_WIDTH / 4, 120, WINDOW_WIDTH / 2, 300)
+        pygame.draw.rect(self.window, (0, 0, 0), rank_rect)
+
+        rank_title = "Rank:"
+        self.menu_text(rank_title, (255, 255, 255), (WINDOW_WIDTH / 2, 100), 30)
+
+        for i, score in enumerate(self.rank):
+            self.menu_text(f"{i+1}. {score} pontos", (255, 255, 255), (WINDOW_WIDTH / 2, 150 + i * 40), 25)

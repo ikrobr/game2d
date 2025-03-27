@@ -11,6 +11,7 @@ class Player(Personagem):
         self.surf = None
         self.rect = None
         self.tiro = []
+        self.pontos = 0
 
         try:
             self.surf = pygame.image.load(
@@ -45,3 +46,19 @@ class Player(Personagem):
         #disparo
         tiro = Tiro(self.rect.midright)  # Dispara da parte direita do tanque
         self.tiro.append(tiro)  #add
+
+    def checar_colisao(self, inimigos):
+        for tiro in self.tiro[:]:
+            for inimigo in inimigos:
+                if inimigo.colide(tiro):
+                    self.tiro.remove(tiro)
+                    inimigos.remove(inimigo)
+                    self.pontos += 10
+                    return True
+        return False
+
+    def checar_game_over(self, inimigos):
+        for inimigo in inimigos:
+            if inimigo.rect.colliderect(self.rect):  #inimigo chegar ao tanque
+                return True  # Game over
+        return False

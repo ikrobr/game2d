@@ -1,13 +1,10 @@
 import pygame
-from pygame import Surface, Rect
-from pygame.font import Font
-
-from codigo.Const import C_WHITE, WINDOW_HEIGHT, WINDOW_WIDTH
+from codigo.Background import Background
+from codigo.Const import C_WHITE, WINDOW_WIDTH, WINDOW_HEIGHT
 from codigo.FactoryPerson import FactoryPerson
 from codigo.Inimigos import Inimigos
 from codigo.Personagem import Personagem
 from codigo.Player import Player
-from codigo.Background import Background
 
 
 class Level:
@@ -16,12 +13,9 @@ class Level:
         self.name = name
         self.game_mode = game_mode
         self.personagem_list: list[Personagem] = []
-
-        # fundo e personagens
         self.personagem_list.extend(FactoryPerson.get_personagem('floresta'))
         self.player = FactoryPerson.get_personagem('Player1', position=(WINDOW_WIDTH // 2, WINDOW_HEIGHT // 2))
 
-        #tendo problemas com ordem de imgs renderizando, ajustar
         if self.player and self.player.surf and self.player.rect:
             self.personagem_list.append(self.player)
         else:
@@ -29,6 +23,7 @@ class Level:
             self.player = None
 
         self.timeout = 20000
+        self.pontuacao = 0
 
         self.inimigos_list = [
             Inimigos('Inimigo1', position=(WINDOW_WIDTH, WINDOW_HEIGHT - 80), velocidade=3),
@@ -48,13 +43,12 @@ class Level:
                     running = False
 
             for pers in self.personagem_list:
-                if isinstance(pers, Background):  # desenhando o fundo
-                    pers.move() #movimentar
+                if isinstance(pers, Background):
+                    pers.move()
                     self.window.blit(pers.surf, pers.rect)
 
             if self.player:
                 self.window.blit(self.player.surf, self.player.rect)
-                #TESTE print(f"Desenhando Player1 na posição {self.player.rect.topleft}") #d... player
 
             for pers in self.personagem_list:
                 if not isinstance(pers, (Background, Player)):
@@ -62,30 +56,43 @@ class Level:
                         self.window.blit(pers.surf, pers.rect)
                         pers.move()
 
-            #tiro do meu tanque
             keys = pygame.key.get_pressed()
             if keys[pygame.K_SPACE]:
                 self.player.shoot()
 
-            for tiro in self.player.tiro[
-                        :]:
+            for tiro in self.player.tiro[:]:
                 tiro.move()
                 self.window.blit(tiro.surf, tiro.rect)
 
                 if tiro.off_screen(WINDOW_WIDTH):
                     self.player.tiro.remove(tiro)
 
-            # Exibe informações na tela
-            self.level_text(14, f'{self.name} - Timeout: {self.timeout / 1000:.1f}s', C_WHITE, (10, 5))
-            #self.level_text(14, f'fps: {clock.get_fps():.0f}', C_WHITE, (10, WINDOW_HEIGHT - 35))
-            self.level_text(14, f'entidades: {len(self.personagem_list)}', C_WHITE, (10, WINDOW_HEIGHT - 20))
+            for tiro in self.player.tiro[:]:
+                for inimigo in self.inimigos_list[:]:
+                    if tiro.rect.colliderect(inimigo.rect):
+                        self.inimigos_list.remove(inimigo)
+                        self.player.tiro.remove(tiro)
+                        self.pontuacao += 10
+                       #TESTE print(f"Colisão detectada! Pontuação: {self.pontuacao}")
+
+            self.level_text(20, f'Pontuação: {self.pontuacao}', C_WHITE, (10, 5))
+
+            if self.pontuacao >= 1000:
+                running = False
 
             pygame.display.flip()
 
-    def level_text(self, text_size: int, text: str, text_color: tuple, text_pos: tuple):
-        text_font: Font = pygame.font.SysFont(name="Lucida Sans Typewriter", size=text_size)
-        text_surf: Surface = text_font.render(text, True, text_color).convert_alpha()
-        text_rect: Rect = text_surf.get_rect(left=text_pos[0], top=text_pos[1])
-        self.window.blit(source=text_surf, dest=text_rect)
+        self.salvar_pontuacao()
 
-        pygame.display.flip()
+    def level_text(self, size, text, color, position):
+        text_font = pygame.font.SysFont(name="Courier", size=size, bold=True)
+        text_surf = text_font.render(text, True, color)
+        text_rect = text_surf.get_rect(topleft=position)
+        self.window.blit(text_surf, text_rect)
+
+    def salvar_pontuacao(self):
+        try:
+            with open('rank.txt', 'a') as f:
+                f.write(f"{self.pontuacao}\n")
+        except Exception as e:
+            print(f"Erro ao salvar pontuação: {e}")

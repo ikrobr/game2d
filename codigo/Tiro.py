@@ -17,3 +17,6 @@ class Tiro:
 
     def off_screen(self, width):
         return self.rect.left > width
+
+    def colide(self, tiro):
+        return self.rect.colliderect(tiro.rect)
