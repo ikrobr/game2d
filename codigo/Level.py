@@ -62,9 +62,22 @@ class Level:
                         self.window.blit(pers.surf, pers.rect)
                         pers.move()
 
+            #tiro do meu tanque
+            keys = pygame.key.get_pressed()
+            if keys[pygame.K_SPACE]:
+                self.player.shoot()
+
+            for tiro in self.player.tiro[
+                        :]:
+                tiro.move()
+                self.window.blit(tiro.surf, tiro.rect)
+
+                if tiro.off_screen(WINDOW_WIDTH):
+                    self.player.tiro.remove(tiro)
+
             # Exibe informações na tela
             self.level_text(14, f'{self.name} - Timeout: {self.timeout / 1000:.1f}s', C_WHITE, (10, 5))
-            self.level_text(14, f'fps: {clock.get_fps():.0f}', C_WHITE, (10, WINDOW_HEIGHT - 35))
+            #self.level_text(14, f'fps: {clock.get_fps():.0f}', C_WHITE, (10, WINDOW_HEIGHT - 35))
             self.level_text(14, f'entidades: {len(self.personagem_list)}', C_WHITE, (10, WINDOW_HEIGHT - 20))
 
             pygame.display.flip()

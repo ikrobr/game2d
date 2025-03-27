@@ -42,6 +42,6 @@ class Player(Personagem):
             self.rect.y += 5
 
     def shoot(self):
-        """Dispara uma bala da posição do tanque"""
+        #disparo
         tiro = Tiro(self.rect.midright)  # Dispara da parte direita do tanque
-        self.tiro.append(tiro)  # Adiciona a bala à lista de balas
+        self.tiro.append(tiro)  #add

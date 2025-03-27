@@ -13,11 +13,11 @@ class Inimigos(Personagem):
 
         self.surf = pygame.image.load(r'C:\Users\icaro\PycharmProjects\DarkMonster\asset\assets\PNG\2\Inimigo1.png').convert_alpha()
 
-        novo_tamanho = (self.surf.get_width() // 8, self.surf.get_height() // 8)  # arrumei o tamanho
+        novo_tamanho = (self.surf.get_width() // 10, self.surf.get_height() // 9)  # arrumei o tamanho
         self.surf = pygame.transform.smoothscale(self.surf, novo_tamanho)
 
         if self.surf:
-            self.rect = self.surf.get_rect(midleft=(0, WINDOW_HEIGHT - self.surf.get_height() // 1+52))
+            self.rect = self.surf.get_rect(midleft=(0, WINDOW_HEIGHT - self.surf.get_height() // 1+19))
         else:
             print("Erro img")
 
