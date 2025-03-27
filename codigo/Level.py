@@ -4,6 +4,7 @@ from pygame.font import Font
 
 from codigo.Const import C_WHITE, WINDOW_HEIGHT, WINDOW_WIDTH
 from codigo.FactoryPerson import FactoryPerson
+from codigo.Inimigos import Inimigos
 from codigo.Personagem import Personagem
 from codigo.Player import Player
 from codigo.Background import Background
@@ -23,12 +24,16 @@ class Level:
         #tendo problemas com ordem de imgs renderizando, ajustar
         if self.player and self.player.surf and self.player.rect:
             self.personagem_list.append(self.player)
-            print(f"Player1 criado com sucesso: {self.player} - Rect: {self.player.rect}")
         else:
             print("Erro ao carregar Player1!")
             self.player = None
 
         self.timeout = 20000
+
+        self.inimigos_list = [
+            Inimigos('Inimigo1', position=(WINDOW_WIDTH, WINDOW_HEIGHT - 80), velocidade=3),
+        ]
+        self.personagem_list.extend(self.inimigos_list)
 
     def run(self):
         pygame.mixer_music.load(r'C:\Users\icaro\PycharmProjects\DarkMonster\asset\assets\\somlevel.wav')
@@ -49,7 +54,7 @@ class Level:
 
             if self.player:
                 self.window.blit(self.player.surf, self.player.rect)
-                print(f"Desenhando Player1 na posição {self.player.rect.topleft}") #d... player
+                #TESTE print(f"Desenhando Player1 na posição {self.player.rect.topleft}") #d... player
 
             for pers in self.personagem_list:
                 if not isinstance(pers, (Background, Player)):

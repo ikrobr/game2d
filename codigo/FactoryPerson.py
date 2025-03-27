@@ -34,8 +34,8 @@ class FactoryPerson:
                 player_instance = Player(name='Player1', position=position)
 
                 if player_instance and player_instance.rect:
-                    print(f"Player1 criado com sucesso: {player_instance} - Rect: {player_instance.rect}")
+                    #TESTE print(f"Player1 criado com sucesso: {player_instance} - Rect: {player_instance.rect}")
                     return player_instance
                 else:
-                    print("Erro ao criar Player1! Rect não foi inicializado corretamente.")
+                    #TESTE print("Erro ao criar Player1! Rect não foi inicializado corretamente.")
                     return None
