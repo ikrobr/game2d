@@ -2,6 +2,7 @@ import os
 from codigo.Background import Background
 from codigo.Chao import Chao
 from codigo.Const import WINDOW_WIDTH, WINDOW_HEIGHT
+from codigo.Player import Player
 
 
 class FactoryPerson:
@@ -27,3 +28,14 @@ class FactoryPerson:
                     list_png.append(chao1)
                     list_png.append(chao2)
                 return list_png
+
+            case 'Player1':
+                print("Criando Player1")
+                player_instance = Player(name='Player1', position=position)
+
+                if player_instance and player_instance.rect:
+                    print(f"Player1 criado com sucesso: {player_instance} - Rect: {player_instance.rect}")
+                    return player_instance
+                else:
+                    print("Erro ao criar Player1! Rect não foi inicializado corretamente.")
+                    return None

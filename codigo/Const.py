@@ -12,3 +12,5 @@ OBJ_SPEED = {
     'floresta4': 2,
     'chao': 0,
 }
+
+C_WHITE = (255, 255, 255)
